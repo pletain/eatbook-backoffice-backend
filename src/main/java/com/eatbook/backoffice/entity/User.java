@@ -23,7 +23,7 @@ public class User extends SoftDeletableEntity {
     @Id
     @Column(length = 36)
     @GeneratedValue(strategy = GenerationType.UUID)
-    private String userId;
+    private String id;
 
     @Column
     private LocalDateTime lastLogin;
@@ -51,12 +51,12 @@ public class User extends SoftDeletableEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return userId.equals(user.userId);
+        return id.equals(user.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(userId);
+        return Objects.hash(id);
     }
 
 }
