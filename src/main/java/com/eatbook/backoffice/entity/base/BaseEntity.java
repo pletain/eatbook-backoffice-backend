@@ -1,4 +1,4 @@
-package com.eatbook.backoffice.global.common;
+package com.eatbook.backoffice.entity.base;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;
