@@ -12,7 +12,6 @@ import java.time.LocalDateTime;
 @Where(clause = "deleted_at IS NULL")
 public abstract class SoftDeletableEntity {
 
-    @Column(name = "deleted_at")
     private LocalDateTime deletedAt;
 
     public boolean isDeleted() {
