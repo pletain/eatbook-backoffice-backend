@@ -49,3 +49,7 @@ task copyMigration(type: Copy) {
 	include '*.sql'
 	into './src/main/resources/migration'
 }
+
+tasks.named('processResources') {
+	dependsOn copyMainConfig, copyMigration
+}
