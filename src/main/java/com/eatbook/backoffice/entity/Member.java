@@ -3,7 +3,6 @@ package com.eatbook.backoffice.entity;
 import com.eatbook.backoffice.entity.base.SoftDeletableEntity;
 import com.eatbook.backoffice.entity.constant.Role;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,11 +13,9 @@ import java.util.Objects;
 
 @Entity
 @Getter
-@Builder
 @NoArgsConstructor
-@AllArgsConstructor
-@Table(name = "user")
-public class User extends SoftDeletableEntity {
+@Table(name = "member")
+public class Member extends SoftDeletableEntity {
 
     @Id
     @Column(length = 36)
@@ -46,12 +43,22 @@ public class User extends SoftDeletableEntity {
     @Column
     private String profileImageUrl;
 
+    @Builder
+    public Member(LocalDateTime lastLogin, Role role, String nickname, String passwordHash, String email, String profileImageUrl) {
+        this.lastLogin = lastLogin;
+        this.role = role;
+        this.nickname = nickname;
+        this.passwordHash = passwordHash;
+        this.email = email;
+        this.profileImageUrl = profileImageUrl;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        User user = (User) o;
-        return id.equals(user.id);
+        Member member = (Member) o;
+        return id.equals(member.id);
     }
 
     @Override
