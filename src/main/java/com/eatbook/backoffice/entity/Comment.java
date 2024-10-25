@@ -2,17 +2,16 @@ package com.eatbook.backoffice.entity;
 
 import com.eatbook.backoffice.entity.base.SoftDeletableEntity;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.antlr.v4.runtime.misc.NotNull;
 
+import java.util.Objects;
+
 @Entity
 @Getter
-@Builder
 @NoArgsConstructor
-@AllArgsConstructor
 @Table(name = "comment")
 public class Comment extends SoftDeletableEntity {
 
@@ -28,10 +27,30 @@ public class Comment extends SoftDeletableEntity {
     @ManyToOne
     @JoinColumn(nullable = false)
     @NotNull
-    private User user;
+    private Member member;
 
     @ManyToOne
     @JoinColumn(nullable = false)
     @NotNull
     private Episode episode;
+
+    @Builder
+    public Comment(String content, Member member, Episode episode) {
+        this.content = content;
+        this.member = member;
+        this.episode = episode;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Comment comment = (Comment) o;
+        return id.equals(comment.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 }

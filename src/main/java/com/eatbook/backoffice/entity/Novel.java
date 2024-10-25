@@ -2,7 +2,6 @@ package com.eatbook.backoffice.entity;
 
 import com.eatbook.backoffice.entity.base.SoftDeletableEntity;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,9 +11,7 @@ import java.util.Objects;
 
 @Entity
 @Getter
-@Builder
 @NoArgsConstructor
-@AllArgsConstructor
 @Table(name = "novel")
 public class Novel extends SoftDeletableEntity {
 
@@ -43,6 +40,16 @@ public class Novel extends SoftDeletableEntity {
 
     @Column
     private int publicationYear;
+
+    @Builder
+    public Novel(String title, String coverImageUrl, String summary, int viewCount, boolean isCompleted, int publicationYear) {
+        this.title = title;
+        this.coverImageUrl = coverImageUrl;
+        this.summary = summary;
+        this.viewCount = viewCount;
+        this.isCompleted = isCompleted;
+        this.publicationYear = publicationYear;
+    }
 
     @Override
     public boolean equals(Object o) {
