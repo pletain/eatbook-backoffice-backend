@@ -1,5 +1,3 @@
--- updated_at: 10/23 14:00
-
 DROP DATABASE IF EXISTS ktb_eatbook;
 
 
