@@ -9,7 +9,9 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
-public class NovelCategory implements Serializable {
+public class NovelCategoryId implements Serializable {
+    private static final long serialVersionUID = 2L;
+
     private String novelId;
     private String categoryId;
 

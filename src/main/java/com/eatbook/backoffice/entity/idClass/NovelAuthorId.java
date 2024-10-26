@@ -8,6 +8,8 @@ import java.io.Serializable;
 @AllArgsConstructor
 @EqualsAndHashCode
 public class NovelAuthorId implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     private String novelId;
     private String authorId;
 
