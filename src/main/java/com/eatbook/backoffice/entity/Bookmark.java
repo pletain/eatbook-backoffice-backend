@@ -3,6 +3,7 @@ package com.eatbook.backoffice.entity;
 import com.eatbook.backoffice.entity.idClass.BookmarkId;
 import com.eatbook.backoffice.entity.idClass.NovelCategoryId;
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,7 +15,7 @@ import java.time.LocalDateTime;
 @IdClass(BookmarkId.class)
 @Entity
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "bookmark")
 public class Bookmark {
 

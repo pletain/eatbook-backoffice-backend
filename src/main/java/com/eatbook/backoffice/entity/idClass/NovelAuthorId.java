@@ -4,7 +4,7 @@ import lombok.*;
 
 import java.io.Serializable;
 
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @EqualsAndHashCode
 public class NovelAuthorId implements Serializable {

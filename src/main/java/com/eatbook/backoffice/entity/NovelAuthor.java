@@ -2,6 +2,7 @@ package com.eatbook.backoffice.entity;
 
 import com.eatbook.backoffice.entity.idClass.NovelAuthorId;
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,7 +14,7 @@ import java.time.LocalDateTime;
 @IdClass(NovelAuthorId.class)
 @Entity
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "novel_author")
 public class NovelAuthor {
 

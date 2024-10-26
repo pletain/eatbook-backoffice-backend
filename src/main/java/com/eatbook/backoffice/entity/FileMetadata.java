@@ -3,16 +3,13 @@ package com.eatbook.backoffice.entity;
 import com.eatbook.backoffice.entity.base.BaseEntity;
 import com.eatbook.backoffice.entity.constant.FileType;
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.antlr.v4.runtime.misc.NotNull;
 
 @Entity
 @Getter
 @Setter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "file_metadata")
 public class FileMetadata extends BaseEntity {
 
