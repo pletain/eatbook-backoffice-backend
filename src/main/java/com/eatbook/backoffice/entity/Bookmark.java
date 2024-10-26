@@ -8,6 +8,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.antlr.v4.runtime.misc.NotNull;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDateTime;
@@ -35,18 +37,19 @@ public class Bookmark {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false)
     @NotNull
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Novel novel;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false)
     @NotNull
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Member member;
 
     @Builder
-    public Bookmark(String novelId, String memberId, LocalDateTime createdAt, Novel novel, Member member) {
+    public Bookmark(String novelId, String memberId, Novel novel, Member member) {
         this.novelId = novelId;
         this.memberId = memberId;
-        this.createdAt = createdAt;
         this.novel = novel;
         this.member = member;
     }
