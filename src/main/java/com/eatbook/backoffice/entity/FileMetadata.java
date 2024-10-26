@@ -5,10 +5,11 @@ import com.eatbook.backoffice.entity.constant.FileType;
 import jakarta.persistence.*;
 import lombok.*;
 import org.antlr.v4.runtime.misc.NotNull;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
 @Getter
-@Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "file_metadata")
 public class FileMetadata extends BaseEntity {
@@ -29,11 +30,11 @@ public class FileMetadata extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false)
     @NotNull
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Episode episode;
 
     @Builder
-    public FileMetadata(String id, FileType type, String path, Episode episode) {
-        this.id = id;
+    public FileMetadata(FileType type, String path, Episode episode) {
         this.type = type;
         this.path = path;
         this.episode = episode;
