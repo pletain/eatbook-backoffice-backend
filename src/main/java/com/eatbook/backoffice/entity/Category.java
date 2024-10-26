@@ -2,6 +2,7 @@ package com.eatbook.backoffice.entity;
 
 import com.eatbook.backoffice.entity.base.SoftDeletableEntity;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.antlr.v4.runtime.misc.NotNull;
@@ -21,5 +22,22 @@ public class Category extends SoftDeletableEntity {
     @NotNull
     private String name;
 
+    @Builder
+    public Category(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Category category = (Category) o;
+        return id.equals(category.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return id.hashCode();
+    }
 
 }
