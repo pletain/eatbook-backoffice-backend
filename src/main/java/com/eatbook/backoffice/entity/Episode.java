@@ -43,7 +43,7 @@ public class Episode extends SoftDeletableEntity {
 
     @Column(nullable = false)
     @NotNull
-    private int viewCount;
+    private int viewCount = 0;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false)
@@ -58,7 +58,7 @@ public class Episode extends SoftDeletableEntity {
         this.title = title;
         this.chapterNumber = chapterNumber;
         this.uploadDate = uploadDate;
-        this.releaseStatus = releaseStatus;
+        this.releaseStatus = releaseStatus != null ? releaseStatus : ReleaseStatus.PUBLIC;
         this.viewCount = viewCount;
         this.novel = novel;
     }
