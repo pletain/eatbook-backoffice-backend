@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.antlr.v4.runtime.misc.NotNull;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -40,6 +42,12 @@ public class Novel extends SoftDeletableEntity {
 
     @Column
     private int publicationYear;
+
+    @OneToMany(mappedBy = "novel", fetch = FetchType.LAZY)
+    private List<NovelAuthor> novelAuthors = new ArrayList<>();
+
+    @OneToMany(mappedBy = "novel", fetch = FetchType.LAZY)
+    private List<Episode> episodes = new ArrayList<>();
 
     @Builder
     public Novel(String title, String coverImageUrl, String summary, int viewCount, boolean isCompleted, int publicationYear) {
