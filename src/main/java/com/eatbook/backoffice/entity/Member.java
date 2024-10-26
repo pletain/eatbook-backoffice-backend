@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 import org.antlr.v4.runtime.misc.NotNull;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -42,6 +44,9 @@ public class Member extends SoftDeletableEntity {
 
     @Column
     private String profileImageUrl;
+
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
+    private List<Bookmark> bookmarks = new ArrayList<>();
 
     @Builder
     public Member(LocalDateTime lastLogin, Role role, String nickname, String passwordHash, String email, String profileImageUrl) {
