@@ -44,10 +44,10 @@ public class Novel extends SoftDeletableEntity {
     @Column
     private int publicationYear;
 
-    @OneToMany(mappedBy = "novel", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "novel", fetch = FetchType.LAZY, orphanRemoval = true)
     private List<NovelAuthor> novelAuthors = new ArrayList<>();
 
-    @OneToMany(mappedBy = "novel", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "novel", fetch = FetchType.LAZY, orphanRemoval = true)
     private List<Episode> episodes = new ArrayList<>();
 
     @Builder
