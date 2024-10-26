@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 import org.antlr.v4.runtime.misc.NotNull;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -39,12 +41,16 @@ public class Episode extends SoftDeletableEntity {
     private ReleaseStatus releaseStatus;
 
     @Column(nullable = false)
+    @NotNull
     private int viewCount;
 
-    @ManyToOne
-    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false)
+    @NotNull
     private Novel novel;
+
+    @OneToMany(mappedBy = "episode", cascade = CascadeType.ALL)
+    private List<FileMetadata> fileMetadataList = new ArrayList<>();
 
     @Builder
     public Episode(String title, int chapterNumber, LocalDateTime uploadDate, ReleaseStatus releaseStatus, int viewCount, Novel novel) {
