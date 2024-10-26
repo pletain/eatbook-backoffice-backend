@@ -2,9 +2,13 @@ package com.eatbook.backoffice.entity;
 
 import com.eatbook.backoffice.entity.base.SoftDeletableEntity;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.antlr.v4.runtime.misc.NotNull;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -20,4 +24,25 @@ public class Author extends SoftDeletableEntity {
     @Column(nullable = false)
     @NotNull
     private String name;
+
+    @OneToMany(mappedBy = "author", fetch = FetchType.LAZY)
+    private List<NovelAuthor> novelAuthors = new ArrayList<>();
+
+    @Builder
+    public Author(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Author author = (Author) o;
+        return id.equals(author.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return id.hashCode();
+    }
 }
