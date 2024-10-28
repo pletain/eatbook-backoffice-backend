@@ -1,34 +1,28 @@
-DROP DATABASE IF EXISTS ktb_eatbook;
-
-
-CREATE DATABASE IF NOT EXISTS ktb_eatbook;
-USE ktb_eatbook;
-
 -- 회원 테이블
-CREATE TABLE user (
-                      id VARCHAR(36) NOT NULL,
-                      created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-                      updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-                      deleted_at DATETIME NULL,
-                      last_login DATETIME,
-                      role ENUM('USER', 'ADMIN') NOT NULL DEFAULT 'USER',
-                      nickname VARCHAR(100) NOT NULL,
-                      password_hash VARCHAR(255) NULL,
-                      email VARCHAR(255) NULL,
-                      profile_image_uri VARCHAR(255),
-                      PRIMARY KEY (id)
+CREATE TABLE member (
+                        id VARCHAR(36) NOT NULL,
+                        created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                        updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                        deleted_at DATETIME NULL,
+                        nickname VARCHAR(100) NOT NULL,
+                        role ENUM('MEMBER', 'ADMIN') NOT NULL DEFAULT 'MEMBER',
+                        profile_image_url VARCHAR(255),
+                        last_login DATETIME,
+                        password_hash VARCHAR(255) NULL,
+                        email VARCHAR(255) NULL,
+                        PRIMARY KEY (id)
 );
 
 -- 사용자 설정 테이블
-CREATE TABLE user_setting (
-                              id VARCHAR(36) NOT NULL,
-                              created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-                              updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-                              font_preference VARCHAR(255),
-                              theme_preference VARCHAR(255),
-                              tts_speed DECIMAL(2,1) NOT NULL DEFAULT 1.0,
-                              PRIMARY KEY (id),
-                              FOREIGN KEY (id) REFERENCES user(id)
+CREATE TABLE member_setting (
+                                id VARCHAR(36) NOT NULL,
+                                created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                                updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                                font_preference VARCHAR(255),
+                                theme_preference VARCHAR(255),
+                                tts_speed DECIMAL(2,1) NOT NULL DEFAULT 1.0,
+                                PRIMARY KEY (id),
+                                FOREIGN KEY (id) REFERENCES member(id)
 );
 
 -- 카테고리 테이블
@@ -48,7 +42,7 @@ CREATE TABLE novel (
                        updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
                        deleted_at DATETIME NULL,
                        title VARCHAR(255) NOT NULL,
-                       cover_image_uri VARCHAR(255),
+                       cover_image_url VARCHAR(255),
                        summary VARCHAR(1000),
                        view_count INT NOT NULL DEFAULT 0,
                        is_completed BOOLEAN NOT NULL,
@@ -110,14 +104,14 @@ CREATE TABLE reading_log (
                              updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
                              page_number INT NOT NULL,
                              tts_last_position_seconds TIME NOT NULL,
-                             user_id VARCHAR(36) NOT NULL,
+                             member_id VARCHAR(36) NOT NULL,
                              novel_id VARCHAR(36) NOT NULL,
                              episode_id VARCHAR(36) NOT NULL,
                              PRIMARY KEY (id),
-                             FOREIGN KEY (user_id) REFERENCES user(id),
+                             FOREIGN KEY (member_id) REFERENCES member(id),
                              FOREIGN KEY (novel_id) REFERENCES novel(id),
                              FOREIGN KEY (episode_id) REFERENCES episode(id),
-                             CONSTRAINT unique_user_novel_episode UNIQUE (user_id, novel_id, episode_id)
+                             CONSTRAINT unique_member_novel_episode UNIQUE (member_id, novel_id, episode_id)
 );
 
 -- 댓글 테이블
@@ -127,31 +121,31 @@ CREATE TABLE comment (
                          created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
                          updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
                          deleted_at DATETIME NULL,
-                         user_id VARCHAR(36) NOT NULL,
+                         member_id VARCHAR(36) NOT NULL,
                          episode_id VARCHAR(36) NOT NULL,
                          PRIMARY KEY (id),
-                         FOREIGN KEY (user_id) REFERENCES user(id),
+                         FOREIGN KEY (member_id) REFERENCES member(id),
                          FOREIGN KEY (episode_id) REFERENCES episode(id)
 );
 
 -- 좋아요 테이블
 CREATE TABLE favorite (
                           novel_id VARCHAR(36) NOT NULL,
-                          user_id VARCHAR(36) NOT NULL,
+                          member_id VARCHAR(36) NOT NULL,
                           created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-                          PRIMARY KEY (novel_id, user_id),
+                          PRIMARY KEY (novel_id, member_id),
                           FOREIGN KEY (novel_id) REFERENCES novel(id),
-                          FOREIGN KEY (user_id) REFERENCES user(id)
+                          FOREIGN KEY (member_id) REFERENCES member(id)
 );
 
 -- 북마크 테이블
 CREATE TABLE bookmark (
                           novel_id VARCHAR(36) NOT NULL,
-                          user_id VARCHAR(36) NOT NULL,
+                          member_id VARCHAR(36) NOT NULL,
                           created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-                          PRIMARY KEY (novel_id, user_id),
+                          PRIMARY KEY (novel_id, member_id),
                           FOREIGN KEY (novel_id) REFERENCES novel(id),
-                          FOREIGN KEY (user_id) REFERENCES user(id)
+                          FOREIGN KEY (member_id) REFERENCES member(id)
 );
 
 -- 파일 메타데이터 테이블
