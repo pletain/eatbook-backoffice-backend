@@ -57,7 +57,7 @@ build/
 **/lombok.config
 
 # Project specific
-.env
+*.env
 *.env.*
 
 # Log files
@@ -108,6 +108,11 @@ HELP.md
 
 # Ignore application-specific YAML files
 /src/main/resources/application-*.yml
+src/main/resources/application.yml
+
+# Ignore migraiton files
+/src/main/resources/migration/
 
 # Ignore IntelliJ's build directories
 out/
+
