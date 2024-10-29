@@ -1,0 +1,6 @@
+spring:
+  profiles:
+    active: ${PROFILE:local}  # 로컬 프로파일을 기본값으로 설정
+
+server:
+  port: ${SERVER_PORT:8090}
