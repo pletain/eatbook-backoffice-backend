@@ -88,7 +88,7 @@ public class GlobalExceptionHandler {
 
         log.error("[Business Exception] {}", e.getErrorCode(), e.getMessage());
 
-        ApiResponse response = ApiResponse.of(e.getErrorCode(), e.getMessage());
+        ApiResponse response = ApiResponse.of(e.getErrorCode());
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
                 .body(response);
