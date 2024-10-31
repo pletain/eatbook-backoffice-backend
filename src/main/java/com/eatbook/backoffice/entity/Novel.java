@@ -35,11 +35,11 @@ public class Novel extends SoftDeletableEntity {
 
     @Column(nullable = false)
     @NotNull
-    private int viewCount;
+    private int viewCount=0;
 
     @Column(nullable = false)
     @NotNull
-    private boolean isCompleted;
+    private boolean isCompleted=false;
 
     @Column
     private int publicationYear;
