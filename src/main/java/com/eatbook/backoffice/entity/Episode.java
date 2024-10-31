@@ -33,13 +33,16 @@ public class Episode extends SoftDeletableEntity {
     @NotNull
     private int chapterNumber;
 
-    @Column
-    private LocalDateTime uploadDate;
-
     @Column(nullable = false, length = 100)
     @NotNull
     @Enumerated(EnumType.STRING)
     private ReleaseStatus releaseStatus;
+
+    @Column
+    private LocalDateTime scheduledReleaseDate;
+
+    @Column
+    private LocalDateTime releasedDate;
 
     @Column(nullable = false)
     @NotNull
@@ -54,10 +57,11 @@ public class Episode extends SoftDeletableEntity {
     private List<FileMetadata> fileMetadataList = new ArrayList<>();
 
     @Builder
-    public Episode(String title, int chapterNumber, LocalDateTime uploadDate, ReleaseStatus releaseStatus, int viewCount, Novel novel) {
+    public Episode(String title, int chapterNumber, LocalDateTime scheduledReleaseDate, LocalDateTime releasedDate, ReleaseStatus releaseStatus, int viewCount, Novel novel) {
         this.title = title;
         this.chapterNumber = chapterNumber;
-        this.uploadDate = uploadDate;
+        this.scheduledReleaseDate = scheduledReleaseDate;
+        this.releasedDate = releasedDate;
         this.releaseStatus = releaseStatus != null ? releaseStatus : ReleaseStatus.PUBLIC;
         this.viewCount = viewCount;
         this.novel = novel;
