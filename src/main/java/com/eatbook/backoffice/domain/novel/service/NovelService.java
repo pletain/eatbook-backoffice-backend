@@ -65,16 +65,15 @@ public class NovelService {
      * @return 저장된 소설
      */
     private Novel createAndSaveNovel(NovelRequest novelRequest) {
-        Novel novel = Novel.builder()
+        Novel newNovel = novelRepository.save(Novel.builder()
                 .title(novelRequest.title())
                 .summary(novelRequest.summary())
                 .isCompleted(novelRequest.isCompleted())
                 .publicationYear(novelRequest.publicationYear())
-                .build();
+                .build());
 
-        novelRepository.save(novel);
-        log.info("새로운 소설이 생성됨: {} - 제목: {}", novel.getId(), novel.getTitle());
-        return novel;
+        log.info("새로운 소설이 생성됨: {} - 제목: {}", newNovel.getId(), newNovel.getTitle());
+        return newNovel;
     }
 
     /**
