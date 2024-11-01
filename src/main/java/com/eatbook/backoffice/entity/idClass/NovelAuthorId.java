@@ -12,5 +12,4 @@ public class NovelAuthorId implements Serializable {
 
     private String novel;
     private String author;
-
 }
