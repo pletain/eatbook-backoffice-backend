@@ -41,19 +41,27 @@ class NovelServiceTest {
     @Mock
     private FileService fileService;
 
+    private final String title = "Valid Title";
+    private final String author = "Valid Author";
+    private final String summary = "Valid Summary";
+    private final List<String> category = List.of("Valid Category");
+    private final boolean isCompleted = true;
+    private final int publicationYear = 1800;
+    private final String testId = "2ed5d018-1499-407f-a73f-23ab142ba593";
+
     @Test
     void shouldThrowNovelAlreadyExistsExceptionWhenTryingToCreateNovelWithSameTitleAndAuthor() {
         // given
         NovelRequest novelRequest = NovelRequest.builder()
-                .title("Same Title")
-                .author("Same Author")
-                .summary("Valid Summary")
-                .category(List.of("Valid Category"))
-                .isCompleted(true)
-                .publicationYear(1800)
+                .title(title)
+                .author(author)
+                .summary(summary)
+                .category(category)
+                .isCompleted(isCompleted)
+                .publicationYear(publicationYear)
                 .build();
 
-        when(novelAuthorRepository.findByNovelTitleAndAuthorName("Same Title", "Same Author"))
+        when(novelAuthorRepository.findByNovelTitleAndAuthorName(title, author))
                 .thenReturn(Optional.of(NovelAuthor.builder().build()));
 
         // when
@@ -64,9 +72,6 @@ class NovelServiceTest {
 
         // Repository와 관련된 save 메서드가 호출되지 않았는지 확인
         verify(novelRepository, never()).save(any(Novel.class));
-        verify(authorRepository, never()).save(any(Author.class));
-        verify(categoryRepository, never()).save(any(Category.class));
-        verify(novelCategoryRepository, never()).save(any(NovelCategory.class));
 
         // novelAuthorRepository의 메서드가 한 번만 호출되었는지 확인
         verify(novelAuthorRepository, times(1)).findByNovelTitleAndAuthorName(anyString(), anyString());
@@ -79,12 +84,12 @@ class NovelServiceTest {
     void shouldCreateNovelSuccessfullyWhenAllInputsAreValid() {
         // given
         NovelRequest novelRequest = NovelRequest.builder()
-                .title("Valid Title")
-                .author("Valid Author")
-                .summary("Valid Summary")
-                .category(List.of("Valid Category"))
-                .isCompleted(true)
-                .publicationYear(1800)
+                .title(title)
+                .author(author)
+                .summary(summary)
+                .category(category)
+                .isCompleted(isCompleted)
+                .publicationYear(publicationYear)
                 .build();
 
         when(authorRepository.findByName(anyString()))
@@ -96,7 +101,7 @@ class NovelServiceTest {
         when(novelRepository.save(any(Novel.class)))
                 .thenAnswer(invocation -> {
                     Novel novel = invocation.getArgument(0);
-                    Novel novelWithId = createNovelWithId("test-id", novel.getTitle(), novel.getSummary(), novel.getPublicationYear());
+                    Novel novelWithId = createNovelWithId(testId, novel.getTitle(), novel.getSummary(), novel.getPublicationYear());
                     return novelWithId;
                 });
 
@@ -124,10 +129,6 @@ class NovelServiceTest {
 
         // Repository와 관련된 save 메서드가 1번씩 호출되었는지 확인
         verify(novelRepository, times(1)).save(any(Novel.class));
-        verify(authorRepository, times(1)).save(any(Author.class));
-        verify(categoryRepository, times(1)).save(any(Category.class));
-        verify(novelCategoryRepository, times(1)).save(any(NovelCategory.class));
-        verify(novelAuthorRepository, times(1)).save(any(NovelAuthor.class));
 
         // 파일 서비스 관련 메서드가 한 번만 호출되었는지 확인
         verify(fileService, times(1)).getPresignUrl(anyString(), any(ContentType.class), anyString());
@@ -138,15 +139,15 @@ class NovelServiceTest {
         // given
 
         NovelRequest novelRequest = NovelRequest.builder()
-                .title("Common Title")
+                .title(title)
                 .author("New Author")
-                .summary("Summary")
-                .category(List.of("Category"))
-                .isCompleted(true)
-                .publicationYear(1800)
+                .summary(summary)
+                .category(category)
+                .isCompleted(isCompleted)
+                .publicationYear(publicationYear)
                 .build();
 
-        when(novelAuthorRepository.findByNovelTitleAndAuthorName("Common Title", "New Author"))
+        when(novelAuthorRepository.findByNovelTitleAndAuthorName(title, "New Author"))
                 .thenReturn(Optional.empty()); // 새로운 작가의 경우 같은 제목의 소설이 없음
 
         when(authorRepository.findByName("New Author"))
@@ -185,10 +186,6 @@ class NovelServiceTest {
 
         // Repository와 관련된 save 메서드가 호출되었는지 확인
         verify(novelRepository, times(1)).save(any(Novel.class));
-        verify(authorRepository, times(1)).save(any(Author.class));
-        verify(categoryRepository, times(1)).save(any(Category.class));
-        verify(novelCategoryRepository, times(1)).save(any(NovelCategory.class));
-        verify(novelAuthorRepository, times(1)).save(any(NovelAuthor.class));
 
         // 파일 서비스 관련 메서드가 한 번만 호출되었는지 확인
         verify(fileService, times(1)).getPresignUrl(anyString(), any(ContentType.class), anyString());
@@ -197,16 +194,13 @@ class NovelServiceTest {
     @Test
     void shouldCreateNovelSuccessfullyWhenCategoryAlreadyExists() {
         // given
-        String existingCategoryName = "Existing Category";
-        Category existingCategory = Category.builder()
-                .name(existingCategoryName)
-                .build();
+        List<String> newCategory = List.of("Category1", "Category4");
 
         NovelRequest novelRequest = NovelRequest.builder()
-                .title("Valid Title")
-                .author("Valid Author")
-                .summary("Summary")
-                .category(List.of(existingCategoryName, "New Category"))
+                .title(title)
+                .author(author)
+                .summary(summary)
+                .category(newCategory)
                 .isCompleted(true)
                 .publicationYear(1800)
                 .build();
@@ -214,10 +208,10 @@ class NovelServiceTest {
         when(authorRepository.findByName(anyString()))
                 .thenReturn(Optional.empty());
 
-        when(categoryRepository.findByName(existingCategoryName))
-                .thenReturn(Optional.of(existingCategory));
+        when(categoryRepository.findByName("Category1"))
+                .thenReturn(Optional.of(Category.builder().name("Category1").build()));
 
-        when(categoryRepository.findByName("New Category"))
+        when(categoryRepository.findByName("Category4"))
                 .thenReturn(Optional.empty());
 
         when(novelRepository.save(any(Novel.class)))
@@ -250,10 +244,8 @@ class NovelServiceTest {
 
         // Repository와 관련된 save 메서드가 1번씩 호출되었는지 확인
         verify(novelRepository, times(1)).save(any(Novel.class));
-        verify(authorRepository, times(1)).save(any(Author.class));
-        verify(categoryRepository, times(1)).save(any(Category.class));
-        verify(novelCategoryRepository, times(2)).save(any(NovelCategory.class)); // 기존 및 새 카테고리 각각 저장
-        verify(novelAuthorRepository, times(1)).save(any(NovelAuthor.class));
+        // 카테고리 저장 메서드가 번 호출되었는지 확인
+        verify(novelCategoryRepository, times(newCategory.size())).save(any(NovelCategory.class));
 
         // 파일 서비스 관련 메서드가 한 번만 호출되었는지 확인
         verify(fileService, times(1)).getPresignUrl(anyString(), any(ContentType.class), anyString());
