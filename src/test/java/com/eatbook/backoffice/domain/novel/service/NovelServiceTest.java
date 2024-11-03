@@ -125,7 +125,7 @@ class NovelServiceTest {
 
         // Then
         assertThat(novelResponse.novelId()).isNotNull();
-        assertThat(novelResponse.preSingedUrl()).isEqualTo("presignedUrl");
+        assertThat(novelResponse.preSignedUrl()).isEqualTo("presignedUrl");
 
         // Repository와 관련된 save 메서드가 1번씩 호출되었는지 확인
         verify(novelRepository, times(1)).save(any(Novel.class));
@@ -182,7 +182,7 @@ class NovelServiceTest {
 
         // Then
         assertThat(novelResponse.novelId()).isNotNull();
-        assertThat(novelResponse.preSingedUrl()).isEqualTo("presignedUrl");
+        assertThat(novelResponse.preSignedUrl()).isEqualTo("presignedUrl");
 
         // Repository와 관련된 save 메서드가 호출되었는지 확인
         verify(novelRepository, times(1)).save(any(Novel.class));
@@ -240,7 +240,7 @@ class NovelServiceTest {
 
         // Then
         assertThat(novelResponse.novelId()).isNotNull();
-        assertThat(novelResponse.preSingedUrl()).isEqualTo("presignedUrl");
+        assertThat(novelResponse.preSignedUrl()).isEqualTo("presignedUrl");
 
         // Repository와 관련된 save 메서드가 1번씩 호출되었는지 확인
         verify(novelRepository, times(1)).save(any(Novel.class));
