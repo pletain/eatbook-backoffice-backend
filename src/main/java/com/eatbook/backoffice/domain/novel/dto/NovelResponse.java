@@ -6,11 +6,11 @@ public record NovelResponse(
         @JsonProperty("novelId")
         String novelId,
 
-        @JsonProperty("presingedUrl")
-        String preSingedUrl
+        @JsonProperty("presignedUrl")
+        String preSignedUrl
 ) {
-    public NovelResponse(String novelId, String preSingedUrl) {
+    public NovelResponse(String novelId, String preSignedUrl) {
         this.novelId = novelId;
-        this.preSingedUrl = preSingedUrl;
+        this.preSignedUrl = preSignedUrl;
     }
 }
